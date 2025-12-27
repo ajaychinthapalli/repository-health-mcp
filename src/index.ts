@@ -99,7 +99,18 @@ const PAVED_ROAD_STANDARDS: AuditStandard[] = [
     check: async (repoPath: string) => {
       try {
         const files = await fs.readdir(repoPath);
-        return files.some(f => f.toLowerCase().includes("code") && f.toLowerCase().includes("conduct"));
+        // Check for common Code of Conduct filename patterns
+        const cocPatterns = [
+          'code_of_conduct.md',
+          'code-of-conduct.md',
+          'code_of_conduct.txt',
+          'code-of-conduct.txt',
+          'conduct.md',
+          'codeofconduct.md'
+        ];
+        return files.some(f => 
+          cocPatterns.includes(f.toLowerCase())
+        );
       } catch {
         return false;
       }
@@ -185,12 +196,26 @@ const PAVED_ROAD_STANDARDS: AuditStandard[] = [
     description: "Repository should have test files",
     check: async (repoPath: string) => {
       try {
-        const files = await fs.readdir(repoPath, { recursive: true });
-        return files.some((f: any) => {
-          const fileName = f.toString().toLowerCase();
+        // Check common test directories
+        const testDirs = ['test', 'tests', '__tests__', 'spec'];
+        for (const dir of testDirs) {
+          try {
+            const dirPath = path.join(repoPath, dir);
+            const stat = await fs.stat(dirPath);
+            if (stat.isDirectory()) return true;
+          } catch {}
+        }
+        
+        // Check for test files in root
+        const files = await fs.readdir(repoPath);
+        return files.some((f: string) => {
+          const fileName = f.toLowerCase();
           return fileName.includes("test") || 
                  fileName.includes("spec") ||
-                 fileName.includes("__tests__");
+                 fileName.endsWith(".test.js") ||
+                 fileName.endsWith(".test.ts") ||
+                 fileName.endsWith(".spec.js") ||
+                 fileName.endsWith(".spec.ts");
         });
       } catch {
         return false;
