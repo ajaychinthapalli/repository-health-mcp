@@ -33,6 +33,20 @@ npm run build
 
 ## Usage
 
+### Quick Start Guides
+
+- **[GitHub Copilot Chat Setup](GITHUB_COPILOT_SETUP.md)** - Step-by-step guide for using with GitHub Copilot in VS Code
+- **[Claude Desktop Setup](#with-claude-desktop)** - Configuration for Claude Desktop
+
+### With GitHub Copilot Chat
+
+See the **[detailed GitHub Copilot setup guide](GITHUB_COPILOT_SETUP.md)** for complete step-by-step instructions.
+
+**Quick summary:**
+1. Build this project: `npm install && npm run build`
+2. Add MCP server to your VS Code settings
+3. Use Copilot Chat commands like: `Use the audit_repository tool to check my repository`
+
 ### With Claude Desktop
 
 Add this to your Claude Desktop configuration (`claude_desktop_config.json`):
