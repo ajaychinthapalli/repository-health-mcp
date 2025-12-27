@@ -35,10 +35,21 @@ npm run build
 
 ### Quick Start Guides
 
-- **[GitHub Copilot Chat Setup](GITHUB_COPILOT_SETUP.md)** - Step-by-step guide for using with GitHub Copilot in VS Code
-- **[Claude Desktop Setup](#with-claude-desktop)** - Configuration for Claude Desktop
+- **[IntelliJ IDEA Setup](INTELLIJ_SETUP.md)** - Quick guide for IntelliJ IDEA users (uses Claude Desktop + IntelliJ Copilot)
+- **[GitHub Copilot Chat Setup](GITHUB_COPILOT_SETUP.md)** - Step-by-step guide for VS Code with GitHub Copilot
+- **[Claude Desktop Setup](#with-claude-desktop)** - Configuration for Claude Desktop standalone
 
-### With GitHub Copilot Chat
+### With IntelliJ IDEA
+
+See the **[IntelliJ IDEA quick setup guide](INTELLIJ_SETUP.md)** for a streamlined workflow.
+
+**Quick summary:**
+1. Build this project: `npm install && npm run build`
+2. Install and configure Claude Desktop with MCP server
+3. Use Claude Desktop to audit your IntelliJ projects
+4. Use IntelliJ Copilot Chat to create missing files
+
+### With GitHub Copilot Chat (VS Code)
 
 See the **[detailed GitHub Copilot setup guide](GITHUB_COPILOT_SETUP.md)** for complete step-by-step instructions.
 

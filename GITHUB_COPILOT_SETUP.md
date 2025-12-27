@@ -6,7 +6,10 @@ This guide provides step-by-step instructions for using the Repository Health MC
 
 1. **GitHub Copilot subscription** with access to Copilot Chat
 2. **Node.js** installed (version 18 or higher)
-3. **VS Code** with GitHub Copilot extension installed
+3. **IDE** with GitHub Copilot extension installed:
+   - IntelliJ IDEA (Ultimate or Community Edition)
+   - VS Code
+   - Or any JetBrains IDE (PyCharm, WebStorm, etc.)
 
 ## Step 1: Clone and Build the Repository
 
@@ -25,6 +28,76 @@ npm run build
 After building, you should see a `dist` folder with the compiled `index.js` file.
 
 ## Step 2: Configure MCP Server for GitHub Copilot
+
+### For IntelliJ IDEA with GitHub Copilot
+
+**Note:** As of now, MCP server integration works best with Claude Desktop. For IntelliJ IDEA, you can use the MCP server through Claude Desktop as a companion tool.
+
+#### Option 1: Use Claude Desktop (Recommended)
+
+1. **Install Claude Desktop** from https://claude.ai/download
+
+2. **Find your Claude Desktop config file:**
+   - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+   - **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+3. **Add the MCP server configuration:**
+
+Create or edit the file and add:
+
+```json
+{
+  "mcpServers": {
+    "repository-health": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/repository-health-mcp/dist/index.js"
+      ]
+    }
+  }
+}
+```
+
+**Important:** Replace `/absolute/path/to/repository-health-mcp` with the actual absolute path where you cloned the repository.
+
+4. **Restart Claude Desktop**
+
+5. **Use from Claude:**
+
+Open Claude Desktop and ask:
+```
+Can you audit the repository at /path/to/my-project for compliance with paved-road standards?
+```
+
+Claude will automatically use the MCP server tools to analyze your repository.
+
+#### Option 2: Use IntelliJ IDEA Terminal + Manual Commands
+
+While MCP server integration isn't directly available in IntelliJ IDEA Copilot Chat yet, you can still use the audit functionality:
+
+1. **Open IntelliJ IDEA Terminal** (View → Tool Windows → Terminal)
+
+2. **Navigate to your project:**
+```bash
+cd /path/to/your/project
+```
+
+3. **Run the audit using Node.js:**
+```bash
+# Create a quick audit script
+cat > audit.mjs << 'EOF'
+import('./path/to/repository-health-mcp/dist/index.js');
+EOF
+
+# Or use the approach below with a test script
+node /path/to/test-audit-script.js /path/to/your/project
+```
+
+4. **Ask GitHub Copilot in IntelliJ** to help create missing files based on the audit results:
+```
+Create a CONTRIBUTING.md file for this project
+```
 
 ### For VS Code with GitHub Copilot Chat
 
@@ -84,9 +157,44 @@ If you're using Claude Desktop instead of VS Code:
 
 ## Step 3: Verify Installation
 
-After configuration, restart VS Code or Claude Desktop. The MCP server should be available.
+After configuration, restart your IDE or Claude Desktop. The MCP server should be available.
 
 ## Step 4: Using the Repository Health Tools
+
+### In IntelliJ IDEA with Claude Desktop
+
+Since IntelliJ IDEA's GitHub Copilot doesn't yet support MCP servers directly, use Claude Desktop as a companion:
+
+#### Workflow for IntelliJ IDEA Users:
+
+1. **In Claude Desktop, audit your project:**
+```
+Can you audit the repository at /Users/myname/IdeaProjects/my-project for compliance with paved-road standards?
+```
+
+2. **Review the results** in Claude Desktop
+
+3. **In IntelliJ IDEA, ask GitHub Copilot** to create missing files:
+```
+// In Copilot Chat in IntelliJ:
+Create a CONTRIBUTING.md file with guidelines for contributing to this project
+
+Create a CODE_OF_CONDUCT.md based on the Contributor Covenant
+
+Add a SECURITY.md file explaining how to report vulnerabilities
+```
+
+4. **Re-audit** in Claude Desktop to verify improvements
+
+#### Example Commands for Claude Desktop:
+
+```
+Audit my repository at /path/to/project
+
+Generate GitHub issue content for repository health tracking
+
+List all the paved-road standards you check for
+```
 
 ### In GitHub Copilot Chat (VS Code)
 
@@ -180,7 +288,44 @@ The MCP server provides 3 tools:
 
 ## Example Workflow
 
-### Step-by-Step: Audit and Improve Your Repository
+### For IntelliJ IDEA Users (Using Claude Desktop)
+
+1. **In Claude Desktop - Initial Audit:**
+   ```
+   Can you audit the repository at /Users/myname/IdeaProjects/my-spring-app for compliance with paved-road standards?
+   ```
+
+2. **Review Results in Claude:**
+   - Note the compliance percentage
+   - Identify which standards are missing
+   - Read the specific recommendations
+
+3. **In Claude Desktop - Generate Issue:**
+   ```
+   Generate GitHub issue content for tracking these improvements
+   ```
+
+4. **In GitHub Web - Create Issue:**
+   - Open your repository on GitHub
+   - Create new issue with the generated content
+
+5. **In IntelliJ IDEA - Make Improvements:**
+   - Use GitHub Copilot Chat to create missing files:
+   ```
+   Create a CONTRIBUTING.md file with contribution guidelines
+   ```
+   - Or ask in the editor:
+   ```
+   // Type in a new file and ask Copilot:
+   Add a comprehensive CODE_OF_CONDUCT.md following best practices
+   ```
+
+6. **In Claude Desktop - Re-audit:**
+   ```
+   Audit the same repository again to see the updated compliance score
+   ```
+
+### For VS Code Users: Step-by-Step Audit and Improve
 
 1. **Initial Audit:**
    ```
