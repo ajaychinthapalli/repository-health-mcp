@@ -107,10 +107,12 @@ Lists all enterprise paved-road standards checked during audits.
 
 ## Example Output
 
+Here's the actual audit output for this repository itself:
+
 ```
 Repository Health Audit Summary:
 
-Overall Compliance: 70% (7/10 standards met)
+Overall Compliance: 40% (4/10 standards met)
 
 ⚠️  Fair. This repository meets some standards but needs significant improvements.
 
@@ -119,14 +121,14 @@ Overall Compliance: 70% (7/10 standards met)
   • LICENSE file
   • .gitignore file
   • Package Manifest
-  • Test Files
-  • CHANGELOG file
-  • CI/CD Configuration
 
-❌ Gaps Found (3):
+❌ Gaps Found (6):
   • CONTRIBUTING guidelines: Add a CONTRIBUTING.md file to guide contributors on how to participate in the project.
   • Code of Conduct: Add a CODE_OF_CONDUCT.md file to establish community guidelines and expectations.
   • Security Policy: Add a SECURITY.md file to explain how to report security vulnerabilities.
+  • CI/CD Configuration: Add CI/CD configuration (e.g., GitHub Actions workflows) to automate testing and deployment.
+  • Test Files: Add test files to ensure code quality and prevent regressions.
+  • CHANGELOG file: Add a CHANGELOG.md file to document version history and notable changes.
 ```
 
 ## Development

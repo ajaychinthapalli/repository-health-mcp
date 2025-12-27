@@ -50,25 +50,31 @@ Lists all 10 enterprise paved-road standards:
 
 ## Example: Auditing This Repository
 
-Let's audit this repository itself:
+Here's the actual audit output when running on this repository itself:
 
 ```
-Repository Path: /home/runner/work/repository-health-mcp/repository-health-mcp
+Repository Health Audit Summary:
+
+Overall Compliance: 40% (4/10 standards met)
+
+⚠️  Fair. This repository meets some standards but needs significant improvements.
+
+✅ Standards Met:
+  • README file
+  • LICENSE file
+  • .gitignore file
+  • Package Manifest
+
+❌ Gaps Found (6):
+  • CONTRIBUTING guidelines: Add a CONTRIBUTING.md file to guide contributors on how to participate in the project.
+  • Code of Conduct: Add a CODE_OF_CONDUCT.md file to establish community guidelines and expectations.
+  • Security Policy: Add a SECURITY.md file to explain how to report security vulnerabilities.
+  • CI/CD Configuration: Add CI/CD configuration (e.g., GitHub Actions workflows) to automate testing and deployment.
+  • Test Files: Add test files to ensure code quality and prevent regressions.
+  • CHANGELOG file: Add a CHANGELOG.md file to document version history and notable changes.
 ```
 
-Expected results:
-- ✅ README file (present)
-- ✅ LICENSE file (present)
-- ✅ .gitignore file (present)
-- ✅ Package Manifest (package.json present)
-- ❌ CONTRIBUTING guidelines (missing)
-- ❌ Code of Conduct (missing)
-- ❌ Security Policy (missing)
-- ❌ CI/CD Configuration (missing)
-- ❌ Test Files (missing)
-- ❌ CHANGELOG file (missing)
-
-**Estimated Compliance:** 40% (4/10 standards met)
+**Actual Compliance:** 40% (4/10 standards met)
 
 ## Integration with GitHub Copilot
 
