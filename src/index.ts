@@ -8,6 +8,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import * as fs from "fs/promises";
 import * as path from "path";
+import { Octokit } from "@octokit/rest";
 
 interface AuditStandard {
   id: string;
@@ -401,6 +402,32 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           properties: {},
         },
       },
+      {
+        name: "create_github_issue",
+        description: "Create a GitHub issue using the API to track repository health improvements",
+        inputSchema: {
+          type: "object",
+          properties: {
+            repository_path: {
+              type: "string",
+              description: "Path to the repository to audit",
+            },
+            owner: {
+              type: "string",
+              description: "GitHub repository owner (username or organization)",
+            },
+            repo: {
+              type: "string",
+              description: "GitHub repository name",
+            },
+            github_token: {
+              type: "string",
+              description: "GitHub personal access token with repo scope",
+            },
+          },
+          required: ["repository_path", "owner", "repo", "github_token"],
+        },
+      },
     ],
   };
 });
@@ -500,6 +527,69 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
       ],
     };
+  }
+  
+  if (name === "create_github_issue") {
+    if (!args) {
+      return {
+        content: [{ type: "text", text: "Missing arguments" }],
+        isError: true,
+      };
+    }
+    
+    const repoPath = args.repository_path as string;
+    const owner = args.owner as string;
+    const repo = args.repo as string;
+    const githubToken = args.github_token as string;
+    
+    try {
+      // First, audit the repository to get the results
+      const auditResult = await auditRepository(repoPath);
+      
+      // Generate issue content
+      const issueContent = createIssueContent(auditResult);
+      
+      // Create GitHub API client
+      const octokit = new Octokit({
+        auth: githubToken,
+      });
+      
+      // Create the issue
+      const response = await octokit.rest.issues.create({
+        owner,
+        repo,
+        title: issueContent.title,
+        body: issueContent.body,
+      });
+      
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify({
+              success: true,
+              issue_number: response.data.number,
+              issue_url: response.data.html_url,
+              title: response.data.title,
+            }, null, 2),
+          },
+          {
+            type: "text",
+            text: `\n\n✅ Successfully created GitHub issue #${response.data.number}\n\nIssue URL: ${response.data.html_url}\n\nTitle: ${response.data.title}`,
+          }
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error creating GitHub issue: ${error instanceof Error ? error.message : String(error)}`,
+          }
+        ],
+        isError: true,
+      };
+    }
   }
 
   return {

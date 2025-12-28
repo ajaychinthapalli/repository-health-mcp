@@ -1,12 +1,13 @@
 # Repository Health MCP Server
 
-An MCP (Model Context Protocol) server that enables GitHub Copilot to audit repositories against enterprise paved-road standards, explain gaps in natural language, and optionally take action by generating content for issues and PRs.
+An MCP (Model Context Protocol) server that enables GitHub Copilot to audit repositories against enterprise paved-road standards, explain gaps in natural language, and take action by creating GitHub issues via the API.
 
 ## Features
 
 - **Automated Audits**: Check repositories against 10 enterprise paved-road standards
 - **Natural Language Explanations**: Get human-readable summaries of compliance gaps
-- **Actionable Output**: Generate GitHub issue content to track improvements
+- **GitHub API Integration**: Automatically create issues to track improvements using the GitHub API
+- **Issue Content Generation**: Preview and customize issue content before creation
 - **Comprehensive Standards**: Covers documentation, security, CI/CD, testing, and more
 
 ## Enterprise Paved-Road Standards
@@ -107,7 +108,28 @@ Generates GitHub issue content that can be used to create an issue tracking repo
 - Issue title
 - Issue body with action items and recommendations
 
-#### 3. list_standards
+#### 3. create_github_issue
+
+Creates a GitHub issue using the GitHub API to track repository health improvements. This tool automatically audits the repository and creates an issue with the findings.
+
+**Input:**
+```json
+{
+  "repository_path": "/path/to/repository",
+  "owner": "github-username-or-org",
+  "repo": "repository-name",
+  "github_token": "ghp_your_github_token"
+}
+```
+
+**Output:**
+- Issue number
+- Issue URL
+- Success confirmation
+
+**Note:** Requires a GitHub personal access token with `repo` scope. You can create one at https://github.com/settings/tokens
+
+#### 4. list_standards
 
 Lists all enterprise paved-road standards checked during audits.
 
@@ -126,7 +148,8 @@ Lists all enterprise paved-road standards checked during audits.
    - Identify gaps and recommendations
    
 3. **Take action:**
-   - Use generate_issue_content to create tracking issues
+   - Use `create_github_issue` to automatically create a GitHub issue with the audit findings
+   - Or use `generate_issue_content` to preview issue content before manually creating it
    - Create PRs to address specific gaps
    - Monitor compliance percentage over time
 
@@ -175,8 +198,9 @@ Once configured, GitHub Copilot can:
 
 1. **Audit repositories** - Ask Copilot to check repository health
 2. **Explain gaps** - Get natural language explanations of what's missing
-3. **Create issues** - Generate issue content to track improvements
-4. **Guide improvements** - Get specific recommendations for each gap
+3. **Create issues automatically** - Use the GitHub API to create issues directly from audit results
+4. **Preview issue content** - Generate issue content to review before creation
+5. **Guide improvements** - Get specific recommendations for each gap
 
 ## Contributing
 
