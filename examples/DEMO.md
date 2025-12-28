@@ -32,7 +32,17 @@ Creates GitHub issue content to track repository health improvements:
 
 **Input:** `{ "repository_path": "/path/to/repo" }`
 
-### 3. list_standards
+### 3. create_github_issue
+
+Automatically creates a GitHub issue via the API to track repository health improvements:
+- Audits the repository
+- Generates issue content
+- Creates the issue using GitHub API
+- Returns issue number and URL
+
+**Input:** `{ "repository_path": "/path/to/repo", "owner": "username", "repo": "repo-name", "github_token": "ghp_..." }`
+
+### 4. list_standards
 
 Lists all 10 enterprise paved-road standards:
 - README file

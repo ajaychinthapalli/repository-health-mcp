@@ -81,6 +81,35 @@ Use the generate_issue_content tool to create an issue for repository /home/user
 }
 ```
 
+### Create GitHub Issue via API
+
+**User:**
+```
+Use the create_github_issue tool to create an issue for repository /home/user/projects/my-app in the GitHub repo my-org/my-app using my GitHub token
+```
+
+**Parameters:**
+```json
+{
+  "repository_path": "/home/user/projects/my-app",
+  "owner": "my-org",
+  "repo": "my-app",
+  "github_token": "ghp_your_github_personal_access_token"
+}
+```
+
+**Expected Output:**
+```json
+{
+  "success": true,
+  "issue_number": 42,
+  "issue_url": "https://github.com/my-org/my-app/issues/42",
+  "title": "Repository Health: 70% compliance with paved-road standards"
+}
+```
+
+**Note:** You need a GitHub personal access token with `repo` scope. Create one at https://github.com/settings/tokens
+
 ### List Standards
 
 **User:**
@@ -146,6 +175,26 @@ console.log(result);
 
 ## Workflow Example
 
+### Option 1: Automatic Issue Creation (Recommended)
+
+1. **Audit and create issue in one step:**
+   ```
+   Create a GitHub issue for the repository at /home/user/projects/my-app in GitHub repo my-org/my-app
+   ```
+
+2. **The tool will:**
+   - Audit the repository
+   - Generate issue content
+   - Create the issue via GitHub API
+   - Return the issue URL
+
+3. **Re-audit after improvements:**
+   ```
+   Audit the repository again to see the updated compliance score
+   ```
+
+### Option 2: Manual Issue Creation
+
 1. **Audit the repository:**
    ```
    Audit the repository at /home/user/projects/my-app
@@ -160,7 +209,7 @@ console.log(result);
    Generate GitHub issue content for the audit results
    ```
 
-4. **Create the issue:**
+4. **Create the issue manually:**
    - Copy the generated content
    - Create a new issue in GitHub
    - Track progress on addressing gaps
@@ -173,6 +222,8 @@ console.log(result);
 ## Tips
 
 - Run audits regularly to maintain compliance
-- Use the issue content generator to track improvements over time
+- Use `create_github_issue` for automated issue creation with GitHub API integration
+- Use `generate_issue_content` if you want to preview or customize content before creating the issue
+- Store your GitHub token securely (e.g., in environment variables)
 - Customize standards by modifying the source code if needed
 - Integrate into CI/CD pipelines for automated compliance checks
